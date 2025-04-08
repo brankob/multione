@@ -70,7 +70,7 @@ with fiona.open(temp_point_loc) as shp:
 X = np.ravel(sampled.iloc[:,:f_len].values)
 Y = np.round(np.tile(np.ravel(sampled.iloc[:,f_len:4].values),3))
 
-# SPlit the data into training and testing sets
+# Split the data into training and testing sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.35, stratify=Y)
 
 # Initialize and train a SVM classifier
