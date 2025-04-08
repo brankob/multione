@@ -1,3 +1,9 @@
+
+-- SQL Script for importing points_ppi.csv data into PostgreSql AND
+-- converting data to geometry data into CRS = 3765
+-- Also creating N-Grid from coordinates provided in csv file (lon,lat)
+-- Data can be seen through QGIS connection with PostgreSql
+
 DROP TABLE IF EXISTS public.points_ppi;
 
 -- Create table
@@ -8,7 +14,7 @@ CREATE TABLE IF NOT EXISTS public.points_ppi(
 	the_geom geometry(Point, 3765)
 );
 
--- Import file - Read ppi data 
+-- Import file - Read points_ppi.csv data 
 COPY  public.points_ppi(lon, lat, ppi )
 FROM '/tmp/points_ppi.csv'
 WITH (FORMAT CSV, HEADER, DELIMITER ',');
@@ -17,7 +23,7 @@ WITH (FORMAT CSV, HEADER, DELIMITER ',');
 -- CREATE INDEX idx_lon_ais ON public.points_ppi USING gist(lon);
 -- CREATE INDEX idx_lat_ais ON public.points_ppi USING gist(lat);
 
--- 2.) CALCULATE POINT from lon&lat to geometry 3765 Croatian coordinate system
+-- CALCULATE POINT from lon&lat to geometry 3765 Croatian coordinate system
 UPDATE  public.points_ppi
     SET the_geom = ST_Transform(ST_GeomFromText('POINT(' || lon  || ' ' || lat || ')', 4326),3765);
 
@@ -30,8 +36,8 @@ WHERE lon IS NULL OR lat IS NULL OR ppi IS NULL;
 --------------------------               - for creating grid       --------------------------
 SELECT min(ST_X(ST_Centroid(the_geom))) AS min_x,
        min(ST_Y(ST_Centroid(the_geom))) AS min_y
-	  -- min(ST_X(ST_Centroid(ST_Transform(the_point, 4326)))) AS long,
-	  -- min(ST_Y(ST_Centroid(ST_Transform(the_point, 4326)))) AS lat
+	  -- min(ST_X(ST_Centroid(ST_Transform(the_point, 3765)))) AS long,
+	  -- min(ST_Y(ST_Centroid(ST_Transform(the_point, 3765)))) AS lat
 FROM public.points_ppi;
 
 
@@ -78,15 +84,4 @@ INSERT INTO tbl_ppi_grid_n (the_geom)
 SELECT ((ST_Dump(the_geom)).geom) AS geom   
 FROM ppi_grid;
 
-
-DROP TABLE IF EXISTS tbl_ppi_line;
-
--- Create GRID -> test radar table 
-CREATE TABLE tbl_ppi_line(
-	     id serial,
-         the_geom geometry(Polygon,3765)
-);
-
-INSERT INTO ST_MakeLine(the_geom)
-FROM points_ppi
 	
