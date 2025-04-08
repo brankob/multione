@@ -4,7 +4,7 @@ All Python codes for GIS analysis:
   
   - contrast_enhac.py -> contrast enhancment of geotiff image.
   
-  - ndi_calculatio.py -> calculate diffeent type of index from RGB image.
+  - ndi_calculation.py -> calculate diffeent type of index from RGB image.
           
   - interpolation_2d.py -> interpolation of PPI points for area of intrest (polygon, created in read_data)
      
