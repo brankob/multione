@@ -1,1 +1,1 @@
-Pdf report
+Full report in pdf
