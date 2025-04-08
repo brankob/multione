@@ -39,18 +39,20 @@ src = "./input/sentinel-2.tif"
 # load the source image into an array
 arr = gdal_array.LoadFile(src)
 
-# Open the raster data -
+# Open the raster data
 ndi = rasterio.open('ndi_enhancened_sentinel_image.tif')
 
-
+# Extract raster pixel (sentinel RGB image) using PPI locations from csv file
 result1 = rasterstats.point_query(ppi_points.geometry, ndi.read(1),nodata = ndi.nodata, affine = ndi.transform,  interpolate='nearest')
 
+# Remove outliers from data
 ppi_points['ndi'] = result1
 ppi_points = ppi_points[ppi_points['ndi'] < 230]
 # Prepare the data
 x = ppi_points['ndi']
 y = np.log(ppi_points['ppi'])
 
+# Plot NDI VS PPI
 plt.plot(x,y,'*')
 plt.xlabel('$Normalized$ $Difference$ $Index$')
 plt.ylabel('$Plant$ $Phenology$ $Index$')
