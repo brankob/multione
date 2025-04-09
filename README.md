@@ -10,4 +10,4 @@ Structure of the project:
    
 4. report --> Pdf report - detailed description of case study.
    
-5. sql --> Sql script which provides alternative to Python for importing vector layer into PostgreSql database.
+5. sql --> Sql script which provides alternative to Python for importing tabular data into PostgreSql database.
