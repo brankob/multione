@@ -109,6 +109,7 @@ sns.heatmap(cm_percent, xticklabels=lulc_name, yticklabels=lulc_name, cmap="jet"
 plt.title('SVM')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
+plt.savefig('confusion_matrix.png')
 plt.show()
 
 
