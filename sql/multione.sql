@@ -40,7 +40,7 @@ SELECT min(ST_X(ST_Centroid(the_geom))) AS min_x,
 	  -- min(ST_Y(ST_Centroid(ST_Transform(the_point, 3765)))) AS lat
 FROM public.points_ppi;
 
-
+/*
 --------------------------- Create grid     ---------------------------
 -- Drop table if exists
 DROP TABLE IF EXISTS public.ppi_grid;
@@ -83,5 +83,5 @@ CREATE INDEX idx_ppi_grid_n ON tbl_ppi_grid_n USING gist(the_geom);
 INSERT INTO tbl_ppi_grid_n (the_geom)
 SELECT ((ST_Dump(the_geom)).geom) AS geom   
 FROM ppi_grid;
-
+*/
 	
