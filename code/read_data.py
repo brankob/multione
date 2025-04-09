@@ -50,7 +50,7 @@ ppi_points['ndi'] = result1
 ppi_points = ppi_points[ppi_points['ndi'] < 230]
 # Prepare the data
 x = ppi_points['ndi']
-y = np.log(ppi_points['ppi'])
+y = ppi_points['ppi']
 
 # Plot NDI VS PPI
 plt.plot(x,y,'*')
